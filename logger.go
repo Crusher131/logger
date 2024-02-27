@@ -157,9 +157,10 @@ func Debug(text string) {
 	_cfg.writer(collor, prefix, text)
 }
 
-func Error(text string) {
+func Error(err error) {
 	prefix := "ERROR: "
 	collor := ColorRed
+	text := fmt.Sprintln(err)
 	_cfg.writer(collor, prefix, text)
 }
 func (c *cfg) fatalErrorConsole(text string) {
@@ -168,10 +169,11 @@ func (c *cfg) fatalErrorConsole(text string) {
 	c.terminalWriter(collor, prefix, text, c.getDate())
 }
 
-func Fatal(text string) {
+func Fatal(err error) {
 	prefix := "FATAL ERROR: "
 
 	collor := ColorRed
+	text := fmt.Sprintln(err)
 	_cfg.writer(collor, prefix, text)
 	log.Fatal()
 }
