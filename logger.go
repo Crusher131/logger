@@ -75,9 +75,9 @@ func SetId(id int) func(c *cfg) {
 	}
 }
 
-func SetTerminal(terminal bool) func(c *cfg) {
+func SetTerminal() func(c *cfg) {
 	return func(c *cfg) {
-		c.writeTerminal = terminal
+		c.writeTerminal = true
 	}
 }
 
