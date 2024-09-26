@@ -160,7 +160,7 @@ func Debug(text string) {
 func Error(err error) {
 	prefix := "ERROR: "
 	collor := ColorRed
-	text := fmt.Sprintln(err)
+	text := fmt.Sprint(err)
 	_cfg.writer(collor, prefix, text)
 }
 func (c *cfg) fatalErrorConsole(text string) {
