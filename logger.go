@@ -18,6 +18,7 @@ type cfg struct {
 	writeFile     bool
 	logfile       string
 	writeTerminal bool
+	debug         bool
 	logpath       Logpath
 	multiWriter   io.Writer
 }
@@ -61,6 +62,7 @@ func defaultcfg() cfg {
 		id:            os.Getpid(),
 		writeTerminal: true,
 		writeFile:     false,
+		debug:         false,
 		logpath: Logpath{
 			path: "log",
 			file: "log.log",
@@ -81,6 +83,11 @@ func SetTerminal() func(c *cfg) {
 	}
 }
 
+func SetDebug() func(c *cfg) {
+	return func(c *cfg) {
+		c.debug = true
+	}
+}
 func SetLogFile(logfile string) func(c *cfg) {
 	return func(c *cfg) {
 		c.logfile = logfile
@@ -152,9 +159,13 @@ func Warn(text string) {
 }
 
 func Debug(text string) {
-	prefix := "Debug: "
-	collor := ColorYellow
-	_cfg.writer(collor, prefix, text)
+	if _cfg.debug == true {
+
+		prefix := "Debug: "
+		collor := ColorYellow
+		_cfg.writer(collor, prefix, text)
+
+	}
 }
 
 func Error(err error) {
