@@ -37,7 +37,7 @@ func Init(f ...cfgopt) {
 	if c.writeTerminal && c.writeFile {
 		err := createLogFile(&c)
 		if err != nil {
-			Fatal(err)
+			log.Fatal(err)
 			os.Exit(1)
 		}
 		c.multiWriter = io.MultiWriter(c.file, os.Stdout)
