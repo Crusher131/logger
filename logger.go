@@ -159,7 +159,7 @@ func Warn(text string) {
 }
 
 func Debug(text string) {
-	if _cfg.debug == true {
+	if _cfg.debug {
 
 		prefix := "Debug: "
 		collor := ColorYellow
