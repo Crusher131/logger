@@ -130,11 +130,13 @@ func definePath(c *cfg) {
 }
 
 func createLogFile(c *cfg) error {
+	if c.logpath.path != "" {
 
-	if _, err := os.Stat(c.logpath.path); os.IsNotExist(err) {
-		err := os.MkdirAll(c.logpath.path, 0755)
-		if err != nil {
-			return fmt.Errorf("falha ao criar a estrutura de diretorio: %w", err)
+		if _, err := os.Stat(c.logpath.path); os.IsNotExist(err) {
+			err := os.MkdirAll(c.logpath.path, 0755)
+			if err != nil {
+				return fmt.Errorf("falha ao criar a estrutura de diretorio: %w", err)
+			}
 		}
 	}
 
@@ -146,45 +148,43 @@ func createLogFile(c *cfg) error {
 	return err
 }
 
-func Info(text string) {
+func Info(text ...any) {
 	prefix := "INFO: "
 	collor := ColorCyan
-	_cfg.writer(collor, prefix, text)
+	fmtText := fmt.Sprint(text...)
+	_cfg.writer(collor, prefix, fmtText)
 }
 
-func Warn(text string) {
+func Warn(text ...any) {
 	prefix := "WARN: "
 	collor := ColorYellow
-	_cfg.writer(collor, prefix, text)
+	fmtText := fmt.Sprint(text...)
+	_cfg.writer(collor, prefix, fmtText)
 }
 
-func Debug(text string) {
+func Debug(text ...any) {
 	if _cfg.debug {
 
 		prefix := "Debug: "
 		collor := ColorYellow
-		_cfg.writer(collor, prefix, text)
+		fmtText := fmt.Sprint(text...)
+		_cfg.writer(collor, prefix, fmtText)
 
 	}
 }
 
-func Error(err error) {
+func Error(err ...any) {
 	prefix := "ERROR: "
 	collor := ColorRed
-	text := fmt.Sprint(err)
+	text := fmt.Sprint(err...)
 	_cfg.writer(collor, prefix, text)
 }
-func (c *cfg) fatalErrorConsole(text string) {
-	prefix := "ERROR: "
-	collor := ColorRed
-	c.terminalWriter(collor, prefix, text, c.getDate())
-}
 
-func Fatal(err error) {
-	prefix := "FATAL ERROR: "
+func Fatal(err ...any) {
+	prefix := "FATAL: "
 
 	collor := ColorRed
-	text := fmt.Sprintln(err)
+	text := fmt.Sprint(err...)
 	_cfg.writer(collor, prefix, text)
 	log.Fatal()
 }
